@@ -1,5 +1,9 @@
 # Hospital Management
 
+## Projet
+
+Ce projet a été realise pour le cours de .Net, dans le cadre de la majeure MTI a l'EPITA.
+
 ## Groupe de PLIC:
 
 ### Federis
