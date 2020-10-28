@@ -1,0 +1,119 @@
+﻿@model ProfileViewModel
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<!-- Title -->
+<div class="row">
+    <div class="col">
+        <h2 class="font-weight-light">Profile</h2>
+    </div>
+    <div class="col-auto">
+        <button class="btn" type="button" data-toggle="modal" data-target="#updateProfileModal">
+            <i class="fas fa-edit"></i>
+        </button>
+    </div>
+</div>
+
+<!-- Profile datas -->
+<div class="row">
+    <!-- Name -->
+    <div class="col-6">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">Name</h5>
+                        <p class="h2 font-weight-bold mb-0 text-capitalize">
+                            @Model.CurrentUser.FullName
+                        </p>
+                    </div>
+                    <div class="col-auto">
+                        <div class="icon-shape bg-gradient-violet text-white rounded-circle shadow">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Email -->
+    <div class="col-6">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">Email</h5>
+                        <p class="h2 font-weight-bold mb-0">
+                            @Model.CurrentUser.Email
+                        </p>
+                    </div>
+                    <div class="col-auto">
+                        <div class="icon-shape bg-gradient-turquoise text-white rounded-circle shadow">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="row">
+    <!-- Phone -->
+    <div class="col-6">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">Phone</h5>
+                        <p class="h2 font-weight-bold mb-0">
+                            @Model.CurrentUser.PhoneNumber
+                        </p>
+                    </div>
+                    <div class="col-auto">
+                        <div class="icon-shape bg-gradient-blue text-white rounded-circle shadow">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Adress -->
+    <div class="col-6">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">Address</h5>
+                        <p class="h2 font-weight-bold mb-0">
+                            @Model.CurrentUser.Address
+                        </p>
+                    </div>
+                    <div class="col-auto">
+                        <div class="icon-shape bg-gradient-green text-white rounded-circle shadow">
+                            <i class="fas fa-home"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="_UpdateProfileModal" model="Model.UpdateProfileViewModel ?? new UpdateProfileViewModel(Model)" />
+
+<script>
+    (function() {
+        @if (Model.OpenUpdateProfileModal)
+        {
+            @:$("#updateProfileModal").modal();
+        }
+    })();
+</script>
+

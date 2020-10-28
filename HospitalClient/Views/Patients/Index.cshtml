@@ -1,0 +1,85 @@
+﻿@model PatientsViewModel
+@{
+    ViewData["Title"] = "Patients";
+}
+
+
+<!-- Add patient -->
+<div class="row d-flex justify-content-end align-items-center add-entry-button">
+    <div class="mr-2 font-weight-light">
+        New patient
+    </div>
+    <button class="btn" type="button" data-toggle="modal" data-target="#createPatientModal">
+        <i class="fas fa-plus-circle"></i>
+    </button>
+</div>
+
+
+<partial name="_AddPatientModal" model="Model.AddPatientViewModel" />
+
+<div class="tab-content">
+    <!-- Patients -->
+    <div class="tab-pane fade show active">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h3 class="mb-0 message-box-header">
+                                    Patients
+                                </h3>
+                            </div>
+                            <div class="col-4">
+                                <div class="search-box">
+                                    <i class="fa fa-search search-box-icon"></i>
+                                    <input class="form-control search-box-input" placeholder="Search patient" oninput="onPatientSearchInput(value, 'patientListSearchList')" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Patient</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="patientListSearchList">
+                                @foreach (var patient in Model.Patients)
+                                {
+                                    <tr class="entry" onclick="window.location.href = '@Url.Action("Details", "Patients", new { patientId = patient.Id })'">
+                                        <th scope="row">
+                                            @patient.FirstName @patient.LastName
+                                            <span class="entry-detail">
+                                                <i class="fas fa-ellipsis-h entry-detail-icon"></i>
+                                            </span>
+                                        </th>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function onPatientSearchInput(value, listId) {
+        const list = document.getElementById(listId);
+        const labels = list.children;
+        const valueLowered = value.toLowerCase();
+        for (const label of labels) {
+            const text = label.textContent.trim();
+            const textLowered = text.toLowerCase();
+            const shouldBeVisible = textLowered.includes(valueLowered);
+            console.log({ text, label, shouldBeVisible });
+            $(label).toggle(shouldBeVisible);
+        }
+    }
+</script>
+

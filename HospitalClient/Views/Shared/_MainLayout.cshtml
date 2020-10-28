@@ -1,0 +1,134 @@
+﻿@using System.Security.Claims;
+@using HospitalEntities.Models
+@{
+    var canSeeAdditionalLinks = User.IsInRole(nameof(Staff));
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+
+    <!-- CSS and scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/fontawesome/css/all.css" />
+</head>
+<body>
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-dark fixed-top flex-md-nowrap p-1 shadow">
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">
+            <span><i class="fas fa-hospital"></i></span>
+            My Hospital
+        </a>
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap mx-3">
+                <a class="nav-link" href="#">@User.Claims.First(c => c.Type == ClaimTypes.Name).Value</a>
+            </li>
+            <li class="nav-item text-nowrap mx-3">
+
+                <form asp-controller="login" asp-action="signout" id="form-signout">
+                    <a class="nav-link" href="#" onclick="document.getElementById('form-signout').submit()">Sign out</a>
+                </form>
+            </li>
+        </ul>
+
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 d-none d-md-block sidebar">
+                <div class="sidebar-sticky">
+                    <!-- Profile name -->
+                    <div class="sidebar-profile">
+                        <h6>
+                        </h6>
+                    </div>
+
+                    <!-- Sidebar list item -->
+                    <ul class="navbar-nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" id="Home Page" asp-action="index" asp-controller="home">
+                                <span><i class="fas fa-home"></i></span>
+                                Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="Appointments" asp-action="index" asp-controller="appointments">
+                                <span><i class="fas fa-edit"></i></span>
+                                Appointments
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="Requests" asp-action="index" asp-controller="requests">
+                                <span><i class="fas fa-question"></i></span>
+                                Requests
+                            </a>
+                        </li>
+                        @if (canSeeAdditionalLinks)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" id="Patients" asp-action="index" asp-controller="patients">
+                                    <span><i class="fas fa-hand-holding-medical"></i></span>
+                                    Patients
+                                </a>
+                            </li>
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link" id="Profile" asp-action="index" asp-controller="profile">
+                                <span><i class="fas fa-user"></i></span>
+                                Profile
+                            </a>
+                        </li>
+                        @if (canSeeAdditionalLinks)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" id="Administration" asp-action="index" asp-controller="admin">
+                                    <span><i class="fas fa-tools"></i></span>
+                                    Administration
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </nav>
+            <!-- Main templated content -->
+            <main role="main" class="col-12 home">
+                @RenderBody()
+
+                <!-- Footer -->
+                <footer class="footer pt-0">
+                    <div class="row align-items-center justify-content-lg-between">
+                        <div class="copyright text-center text-lg-left text-muted">
+                            © 2020 <span class="font-weight-bold m1-1">Federis.</span>
+                        </div>
+                    </div>
+                </footer>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Some scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.0.slim.min.js" integrity="sha256-MlusDLJIP1GRgLrOflUQtshyP0TwT/RHXsI1wWGnQhs=" crossorigin="anonymous"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        var currentPage = '@ViewData["Title"]';
+        setActivePage(currentPage);
+    </script>
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

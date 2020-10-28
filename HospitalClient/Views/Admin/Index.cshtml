@@ -1,0 +1,143 @@
+﻿@using HospitalClient.Extensions
+@model AdminViewModel
+@{
+    ViewData["Title"] = "Administration";
+
+    var activeTabAttributes = "active";
+    var activeTabPanelAttributes = "active show";
+
+    var staffsTabAttributes = "";
+    var staffsTabPanelAttributes = "";
+    var messagesTabAttributes = "";
+    var messagesTabPanelAttributes = "";
+
+    switch (Model.Tab)
+    {
+        case AdminTabEnum.STAFFS:
+            staffsTabAttributes = activeTabAttributes;
+            staffsTabPanelAttributes = activeTabPanelAttributes;
+            break;
+        case AdminTabEnum.MESSAGES:
+            messagesTabAttributes = activeTabAttributes;
+            messagesTabPanelAttributes = activeTabPanelAttributes;
+            break;
+    }
+}
+
+<!-- Title -->
+<div class="row">
+    <div class="col">
+        <h2 class="font-weight-light">Administration</h2>
+    </div>
+</div>
+
+<ul class="nav nav-pills nav-fill" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link @staffsTabAttributes" href="#staffs" role="tab" id="staffsTab" aria-controls="staffs" data-toggle="tab">Staffs</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @messagesTabAttributes" href="#messages" role="tab" id="messagesTab" aria-controls="messages" data-toggle="tab">Messages</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade @staffsTabPanelAttributes" role="tabpanel" id="staffs" aria-labelledby="staffsTab">
+        <div class="card">
+            <div class="card-header card-header--small-bouton border-0">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h3 class="mb-0 message-box-header">
+                            Staffs
+                        </h3>
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-sm" data-toggle="modal" data-target="#addStaffModal">
+                            <i class="fas fa-plus-circle"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Staff</th>
+                            <th scope="col">Rôle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var staff in Model.Staffs)
+                        {
+                            <tr class="entry">
+                                <th scope="row">
+                                    @staff.FullName
+                                </th>
+                                <td>
+                                    @staff.StaffType.GetDisplayName()
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane fade @messagesTabPanelAttributes" role="tabpanel" id="messages" aria-labelledby="messagesTab">
+        <div class="card">
+            <div class="card-header card-header--small-bouton border-0">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h3 class="mb-0 message-box-header">
+                            Messages
+                        </h3>
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-sm" data-toggle="modal" data-target="#addMessageModal">
+                            <i class="fas fa-plus-circle"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Message</th>
+                            <th scope="col">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var message in Model.Messages)
+                        {
+                            <tr>
+                                <th scope="row">
+                                    @message.Description
+                                </th>
+                                <td>
+                                    @message.CreatedAt
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="_AddStaffModal" model="Model.AddStaffViewModel" />
+<partial name="_AddMessageModal" model="Model.AddMessageViewModel" />
+
+<script>
+    (function() {
+        @if (Model.OpenAddStaffModal)
+        {
+            @:$("#addStaffModal").modal("show");
+        }
+        else if (Model.OpenAddMessageModal)
+        {
+            @:$("#addMessageModal").modal("show");
+        }
+    })();
+</script>

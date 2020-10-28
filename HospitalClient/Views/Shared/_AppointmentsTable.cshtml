@@ -1,0 +1,62 @@
+﻿@model AppointmentsTableViewModel
+
+<div class="table-responsive">
+    <table class="table align-items-center table-flush">
+        <thead class="thead-light">
+            <tr>
+                @if (Model.ShowStaff)
+                {
+                    <th scope="col">Staff</th>
+                }
+                @if (Model.ShowPatient)
+                {
+                    <th scope="col">Patient</th>
+                }
+                <th scope="col">Date</th>
+                @if (Model.CanAcceptOrRefuseAppointments)
+                {
+                    <th scope="col">Accept / Refuse</th>
+                }
+            </tr>
+        </thead>
+        <tbody id="@Model.TableBodyId">
+            @foreach (var appointment in Model.Appointments)
+            {
+                <tr class="entry"
+                    onclick="window.location.href = '@Url.Action("Details", "Appointments", new { appointmentId = appointment.Id })'"
+                    @Model.AppointmentAttributes?.Invoke(appointment)>
+                    @if (Model.ShowStaff)
+                    {
+                        <th scope="row">
+                            @appointment.Staff.FullName
+                        </th>
+                    }
+                    @if (Model.ShowPatient)
+                    {
+                        <th scope="row">
+                            @appointment.Patient.FullName
+                        </th>
+                    }
+                    <td>
+                        @appointment.Date
+                        @if (!Model.CanAcceptOrRefuseAppointments)
+                        {
+                            <span class="entry-detail">
+                                <i class="fas fa-ellipsis-h entry-detail-icon"></i>
+                            </span>
+                        }
+                    </td>
+                    @if (Model.CanAcceptOrRefuseAppointments)
+                    {
+                        <td>
+                            <form method="post">
+                                <button type="submit" class="btn btn-primary" asp-controller="Requests" asp-action="Accept" asp-route-appointmentId="@appointment.Id">Accept</button>
+                                <button type="submit" class="btn btn-danger" asp-controller="Requests" asp-action="Refuse" asp-route-appointmentId="@appointment.Id">Refuse</button>
+                            </form>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

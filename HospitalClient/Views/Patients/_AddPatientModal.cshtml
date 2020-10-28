@@ -1,0 +1,64 @@
+﻿@model AddPatientViewModel
+<!-- Add appointment modal -->
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="createPatientModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New patient</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form asp-controller="Patients" asp-action="AddPatient">
+                <div class="modal-body">
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label asp-for="Email" class="col-form-label">Email:</label>
+                        <input asp-for="Email" class="form-control" required autofocus/>
+                        <div><span asp-validation-for="Email"></span></div>
+                    </div>
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label asp-for="Password" class="col-form-label">Password:</label>
+                        <input asp-for="Password" class="form-control" required />
+                        <div><span asp-validation-for="Password"></span></div>
+                    </div>
+                    <!-- FirstName -->
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="col-form-label">First Name:</label>
+                        <input asp-for="FirstName" class="form-control" required />
+                        <div><span asp-validation-for="FirstName"></span></div>
+                    </div>
+                    <!-- LastName -->
+                    <div class="form-group">
+                        <label asp-for="LastName" class="col-form-label">Last Name:</label>
+                        <input asp-for="LastName" class="form-control" required />
+                        <div><span asp-validation-for="LastName"></span></div>
+                    </div>
+                    <!-- Address -->
+                    <div class="form-group">
+                        <label asp-for="Address" class="col-form-label">Address:</label>
+                        <input asp-for="Address" class="form-control" />
+                        <div><span asp-validation-for="Address"></span></div>
+                    </div>
+                    <!-- Phone Number -->
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" class="col-form-label">Phone Number:</label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <div><span asp-validation-for="PhoneNumber"></span></div>
+                    </div>
+                    <!-- Background -->
+                    <div class="form-group">
+                        <label asp-for="Background" class="col-form-label">Patient background:</label>
+                        <textarea asp-for="Background" class="form-control"></textarea>
+                        <div><span asp-validation-for="Background"></span></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

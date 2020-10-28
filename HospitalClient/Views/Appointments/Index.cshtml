@@ -1,0 +1,152 @@
+﻿@using HospitalClient.Extensions
+@using HospitalEntities.Models
+@using Microsoft.AspNetCore.Html
+@model AppointmentsViewModel
+@{
+    ViewData["Title"] = "Appointments";
+    var appointmentsMinDate = Model.AllAppointments.Min(a => a.Date as DateTime?) ?? DateTime.Now;
+    var appointmentsMaxDate = Model.AllAppointments.Max(a => a.Date as DateTime?) ?? DateTime.Now;
+}
+
+<!-- Add appointment -->
+@if (Model.ShowAddAppointmentButton)
+{
+    <div class="row d-flex justify-content-end align-items-center add-entry-button">
+        <div class="mr-2 font-weight-light">
+            New appointment
+        </div>
+        <button class="btn" type="button" data-toggle="modal" data-target="#createAppointmentModal">
+            <i class="fas fa-plus-circle"></i>
+        </button>
+    </div>
+
+    <partial name="_AddAppointmentModal" model="Model.AddAppointmentViewModel" />
+}
+
+<!-- Date chooser -->
+<ul class="nav nav-pills nav-fill" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" href="#today" role="tab" id="appointmentsToday" aria-controls="today" data-toggle="tab">Today</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#range" role="tab" id="appointmentsRange" aria-controls="range" data-toggle="tab">Specific date</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <!-- Todays appointments -->
+    <div class="tab-pane fade show active" role="tabpanel" id="today" aria-labelledby="appointmentsToday">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0 message-box-header">
+                                    Today's Appointments
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    @await Html.PartialAsync("_AppointmentsTable", new AppointmentsTableViewModel
+                    {
+                        Appointments = Model.TodaysAppointments,
+                        CanAcceptOrRefuseAppointments = false,
+                        ShowPatient = Model.IsStaff,
+                        ShowStaff = !Model.IsStaff
+                    })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Specific date appointments -->
+    <div class="tab-pane fade" role="tabpanel" id="range" aria-labelledby="appointmentsRange">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd">
+                        <input type="text" class="form-control" onchange="onStartInput(value)" value="@appointmentsMinDate.ToHtmlDateString()">
+                        <div class="input-group-addon">
+                            <span class="fa fa-calendar align-middle"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    <div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd">
+                        <input type="text" class="form-control" onchange="onEndInput(value)" value="@appointmentsMaxDate.ToHtmlDateString()">
+                        <div class="input-group-addon">
+                            <span class="fa fa-calendar align-middle"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header border-0">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h3 class="mb-0 message-box-header">
+                            Appointments
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                @await Html.PartialAsync("_AppointmentsTable", new AppointmentsTableViewModel
+                {
+                    Appointments = Model.AllAppointments,
+                    CanAcceptOrRefuseAppointments = false,
+                    ShowPatient = Model.IsStaff,
+                    ShowStaff = !Model.IsStaff,
+                    TableBodyId = "appointmentsList",
+                    AppointmentAttributes = appointment => new HtmlString($"data-appointment-date=\"{appointment.Date}\"")
+                })
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const appointmentsModel = {
+        appointments: @Json.Serialize(Model.AllAppointments),
+        startDate: new Date("@appointmentsMinDate"),
+        endDate: new Date("@appointmentsMaxDate")
+    };
+
+    function updateAppointmentList() {
+        const list = document.getElementById("appointmentsList");
+        const rows = list.children;
+        const startDate = appointmentsModel.startDate;
+        const endDate = appointmentsModel.endDate;
+        endDate.setDate(endDate.getDate() + 1);
+        Array.from(rows).forEach(row => {
+            const date = new Date(row.dataset.appointmentDate);
+            const shouldBeVisible = startDate <= date && date < endDate;
+            $(row).toggle(shouldBeVisible);
+        });
+    }
+
+    function onStartInput(value) {
+        appointmentsModel.startDate = new Date(`${value} 00:00:00`);
+        updateAppointmentList();
+    }
+
+    function onEndInput(value) {
+        appointmentsModel.endDate = new Date(`${value} 00:00:00`);
+        updateAppointmentList();
+    }
+
+    function openAppointmentModal() {
+        $('#createAppointmentModal').modal('show');
+    }
+
+    @if (Model.OpenAddAppointmentModal)
+    {
+        <text>
+            window.addEventListener("load", openAppointmentModal);
+        </text>
+    }
+</script>

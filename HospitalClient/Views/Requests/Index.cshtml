@@ -1,0 +1,121 @@
+﻿@model RequestsViewModel
+@{
+    ViewData["Title"] = "Requests";
+}
+
+<!-- Add request -->
+<div class="row d-flex justify-content-end align-items-center add-entry-button">
+    <div class="mr-2 font-weight-light">
+        New request
+    </div>
+    <button class="btn" type="button" data-toggle="modal" data-target="#createRequestModal">
+        <i class="fas fa-plus-circle"></i>
+    </button>
+</div>
+
+<!-- Type chooser -->
+<div class="tab-chooser">
+    <ul class="nav nav-pills nav-fill" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" href="#wait" role="tab" id="requestsWait" aria-controls="wait" data-toggle="tab">Wait</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link middle-tab" href="#refused" role="tab" id="requestsRefused" aria-controls="refused" data-toggle="tab">Refused</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#accepted" role="tab" id="requestsAccepted" aria-controls="accepted" data-toggle="tab">Accepted</a>
+        </li>
+    </ul>
+</div>
+
+
+<div class="tab-content">
+    <!-- Wait requests -->
+    <div class="tab-pane fade show active" role="tabpanel" id="wait" aria-labelledby="requestsWait">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0 message-box-header">
+                                    Requests
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    @await Html.PartialAsync("_AppointmentsTable", new AppointmentsTableViewModel
+                    {
+                        Appointments = Model.AppointmentsWait,
+                        CanAcceptOrRefuseAppointments = Model.CanAcceptOrRefuseAppointments,
+                        ShowPatient = Model.IsStaff,
+                        ShowStaff = !Model.IsStaff
+                    })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Refused requests -->
+    <div class="tab-pane fade" role="tabpanel" id="refused" aria-labelledby="requestsRefused">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0 message-box-header">
+                                    Requests
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    @await Html.PartialAsync("_AppointmentsTable", new AppointmentsTableViewModel
+                    {
+                        Appointments = Model.AppointmentsRefused,
+                        CanAcceptOrRefuseAppointments = false,
+                        ShowPatient = Model.IsStaff,
+                        ShowStaff = !Model.IsStaff
+                    })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accepted requests -->
+    <div class="tab-pane fade" role="tabpanel" id="accepted" aria-labelledby="requestsAccepted">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0 message-box-header">
+                                    Requests
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    @await Html.PartialAsync("_AppointmentsTable", new AppointmentsTableViewModel
+                    {
+                        Appointments = Model.AppointmentsAccepted,
+                        CanAcceptOrRefuseAppointments = false,
+                        ShowPatient = Model.IsStaff,
+                        ShowStaff = !Model.IsStaff
+                    })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="_AddRequestModal" model="Model.AddRequestViewModel" />
+
+<script>
+    (function() {
+        @if (Model.OpenAddRequestModal)
+        {
+            @:$("#createRequestModal").modal();
+        }
+    })();
+</script>

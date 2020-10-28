@@ -1,0 +1,89 @@
+﻿@using HospitalEntities.Models
+@model AddRequestViewModel
+
+<!-- Add requets modal -->
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="createRequestModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New request</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form asp-controller="Requests" asp-action="AddRequest">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label asp-for="Date" class="col-form-label">Date:</label>
+                        <div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd">
+                            <input asp-for="Date" type="text" class="form-control">
+                            <div class="input-group-addon">
+                                <span class="fa fa-calendar align-middle"></span>
+                            </div>
+                        </div>
+                        <div><span asp-validation-for="Date"></span></div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Time" class="col-form-label">Time:</label>
+                        <input asp-for="Time" class="form-control" />
+                        <div><span asp-validation-for="Time"></span></div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DoctorId" class="col-form-label">Doctor:</label>
+                        <input class="form-control" oninput="onSearchInput(value, 'doctorSearchList')" id="doctorSearchInput" />
+                        <div class="btn-group-toggle add-request__btn-group text-center p-1" data-toggle="buttons" id="doctorSearchList">
+                            @foreach (var doctor in Model.Doctors)
+                            {
+                                var activeClass = doctor.Id == Model.DoctorId ? "active" : null;
+                                <label class="btn btn-info mb-1 @activeClass" onclick="onDoctorSearchSelect(value)">
+                                    <input type="radio" asp-for="DoctorId" value="@doctor.Id" onchange="onDoctorSearchSelect(value)" /> @doctor.FullName
+                                </label>
+                            }
+                        </div>
+                        <div><span asp-validation-for="DoctorId"></span></div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="col-form-label">Request description:</label>
+                        <textarea asp-for="Description" class="form-control"></textarea>
+                        <div><span asp-validation-for="Description"></span></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const modelDoctors = @Json.Serialize(Model.Doctors);
+
+    function onSearchInput(value, listId) {
+        const list = document.getElementById(listId);
+        const labels = list.children;
+        const valueLowered = value.toLowerCase();
+        for (const label of labels) {
+            const text = label.textContent.trim();
+            const textLowered = text.toLowerCase();
+            const shouldBeVisible = textLowered.includes(valueLowered);
+            console.log({ text, label, shouldBeVisible });
+            $(label).toggle(shouldBeVisible);
+        }
+    }
+
+    function onSearchSelect(idString, inputId, modelList) {
+        const input = document.getElementById(inputId);
+        const model = modelList.find(p => p.id == idString);
+        input.value = model ? model.fullName : "";
+    }
+
+    function onDoctorSearchSelect(doctorIdString) {
+        onSearchSelect(doctorIdString, 'doctorSearchInput', modelDoctors);
+    }
+
+    (function() {
+        onDoctorSearchSelect(@Model.DoctorId);
+    })();
+</script>

@@ -1,0 +1,93 @@
+﻿@model SignUpViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<script src="~/js/login.js"></script>
+
+<div class="form">
+
+    <!-- Logo -->
+    <h1 class="mb-3 font-weight-light">
+        <span>
+            <i class="fas fa-hospital"></i>
+        </span>
+        My Hospital
+    </h1>
+
+    <!-- Login form -->
+    <form class="form" id="form-signin" asp-controller="Login" asp-action="Login">
+        <h1 class="h3 mb-3 font-weight-normal">Please Sign In</h1>
+
+        <div class="success">
+            @ViewBag.success
+        </div>
+
+        <div asp-validation-summary="All"></div>
+
+        <!-- Email -->
+        <label for="login-email" class="sr-only">Email Address</label>
+        <input asp-for="Email" id="login-email" class="form-control top-input" placeholder="Email Address" autofocus />
+
+        <!-- Password -->
+        <label for="login-password" class="sr-only">Password</label>
+        <input asp-for="Password" id="login-password" class="form-control bottom-input" placeholder="Password" required />
+
+
+        <!-- Button -->
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+
+
+        <!-- Sign up Button -->
+        <button class="btn btn-link mt-4" id="sign-btn" type="button" onclick="switchToSign()">New patient ?</button>
+    </form>
+
+
+    <!-- SignUp form -->
+    <form class="form" id="form-signup" asp-controller="Login" asp-action="SignUp">
+        <h1 class="h3 mb-3 font-weight-normal">Please Sign Up</h1>
+
+        <div class="success">
+            @ViewBag.success
+        </div>
+
+        <div asp-validation-summary="All"></div>
+
+        <!-- Firstname -->
+        <label asp-for="FirstName" class="sr-only">First Name</label>
+        <input asp-for="FirstName" class="form-control top-input" placeholder="First Name" required autofocus />
+
+        <!-- Lastname -->
+        <label asp-for="LastName" class="sr-only">Last Name</label>
+        <input asp-for="LastName" class="form-control middle-input" placeholder="Last Name" required />
+
+        <!-- Email -->
+        <label for="signup-email" class="sr-only">Email Address</label>
+        <input asp-for="Email" id="signup-email" class="form-control middle-input" placeholder="Email Address" />
+
+        <!-- Password -->
+        <label for="signup-password" class="sr-only">Password</label>
+        <input asp-for="Password" id="signup-password" class="form-control middle-input" placeholder="Password" />
+
+        <label asp-for="ConfirmPassword" class="sr-only">Password Confirm</label>
+        <input asp-for="ConfirmPassword" class="form-control middle-input" placeholder="Password Confirm" required />
+
+        <!-- Address -->
+        <label asp-for="Address" class="sr-only">Address</label>
+        <input asp-for="Address" class="form-control middle-input" placeholder="Address" required />
+
+        <!-- Phone -->
+        <label asp-for="PhoneNumber" class="sr-only">Phone</label>
+        <input asp-for="PhoneNumber" class="form-control bottom-input" placeholder="Phone" required />
+
+        <!-- Button -->
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+
+
+        <!-- Login Button -->
+        <button class="btn btn-link mt-4" id="login-btn" type="button" onclick="switchToLogin()">Login</button>
+    </form>
+
+    <!-- "Footer" -->
+    <p class="mt-5 mb-3 text-muted">© 2020 Federis.</p>
+</div>

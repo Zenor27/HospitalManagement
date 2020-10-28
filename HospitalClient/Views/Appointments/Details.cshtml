@@ -1,0 +1,150 @@
+﻿@model AppointmentDetailsModel
+@{
+    ViewData["Title"] = "Appointments";
+}
+
+<!-- Title -->
+<div class="row">
+    <div class="col-12">
+        <h2 class="font-weight-light">Appointment</h2>
+    </div>
+</div>
+
+<!-- Appoitment datas -->
+<div class="row">
+    <div class="col-6">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">Date</h5>
+                        <span class="h2 font-weight-bold mb-0">@Model.Appointment.Date</span>
+                    </div>
+                    <div class="col-auto">
+                        <div class="icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                            <i class="fas fa-calendar-day"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">Status</h5>
+                        <span class="h2 font-weight-bold mb-0 text-capitalize">@Model.Appointment.Status.ToString().ToLower()</span>
+                    </div>
+                    <div class="col-auto">
+                        <div class="icon-shape bg-gradient-blue text-white rounded-circle shadow">
+                            <i class="fas fa-question"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Patient and staff datas -->
+<div class="row">
+    <!-- Patient -->
+    <div class="col-6">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">Patient</h5>
+                        <p class="h2 font-weight-bold mb-0 text-capitalize">@Model.Appointment.Patient.FirstName @Model.Appointment.Patient.LastName</p>
+                        <p class="h2 font-weight-normal mb-0">
+                            <i class="fa fa-phone"></i>
+                            @Model.Appointment.Patient.PhoneNumber
+                        </p>
+                        <p class="h2 font-weight-normal mb-0">
+                            <i class="fa fa-envelope"></i>
+                            @Model.Appointment.Patient.Email
+                        </p>
+                        <p class="h2 font-weight-normal mb-0">
+                            <i class="fa fa-home"></i>
+                            @Model.Appointment.Patient.Address
+                        </p>
+
+                    </div>
+                    <div class="col-auto">
+                        <div class="icon-shape bg-gradient-violet text-white rounded-circle shadow">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Staff -->
+    <div class="col-6">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">Doctor</h5>
+                        <p class="h2 font-weight-bold mb-0 text-capitalize">@Model.Appointment.Staff.FirstName @Model.Appointment.Staff.LastName</p>
+                        <p class="h2 font-weight-normal mb-0">
+                            <i class="fa fa-phone"></i>
+                            @Model.Appointment.Staff.PhoneNumber
+                        </p>
+                        <p class="h2 font-weight-normal mb-0">
+                            <i class="fa fa-envelope"></i>
+                            @Model.Appointment.Staff.Email
+                        </p>
+                        <p class="h2 font-weight-normal mb-0 text-capitalize">
+                            <i class="fa fa-briefcase-medical"></i>
+                            @Model.Appointment.Staff.StaffType.ToString().Replace("_", " ").ToLower()
+                        </p>
+
+                    </div>
+                    <div class="col-auto">
+                        <div class="icon-shape bg-gradient-green text-white rounded-circle shadow">
+                            <i class="fas fa-user-nurse"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Background and Appointment description -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header h4 font-weight-bold mb-0">
+                Informations
+            </div>
+            <div class="card-body">
+                <form asp-controller="Appointments" asp-action="UpdatePatientBackgroundAndAppointmentDescription">
+                    @Html.HiddenFor(model => model.Appointment.Id)
+                    <div class="row">
+                        <div class="col-6">
+                            <h5 class="card-title">Patient background</h5>
+                            <textarea class="w-100 form-control" asp-for="Appointment.Patient.Background">@Model.Appointment.Patient.Background</textarea>
+                        </div>
+
+                        <div class="col-6">
+                            <h5 class="card-title">Appointment details</h5>
+                            <textarea class="w-100 form-control" asp-for="@Model.Appointment.Description">@Model.Appointment.Description</textarea>
+                        </div>
+
+                        <div class="col-auto">
+                            <button class="btn btn-primary mt-3" type="submit">Update</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

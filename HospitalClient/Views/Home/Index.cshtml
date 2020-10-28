@@ -1,0 +1,288 @@
+﻿@using HospitalEntities.Models
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!-- First dashboard row -->
+<div class="row">
+
+    <div class="col-4">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">All My Appointments</h5>
+                        <span class="h2 font-weight-bold mb-0">@ViewData["allMyAppointments"] total</span>
+                    </div>
+                    <div class="col-auto">
+                        <div class="icon-shape bg-gradient-red text-white rounded-circle shadow">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-3 mb-0 text-sm">
+                    <span class="mr-2">
+                        <i class="fa">
+                            <span class="text-nowrap font-weight-light stat-last-hours">
+                                @ViewData["newAppointmentsIn24Hours"]
+                            </span>
+                        </i>
+                    </span>
+                    <span class="text-nowrap font-weight-light">
+                        In the last 24hours
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">Next Appointments Today</h5>
+                        <span class="h2 font-weight-bold mb-0">@ViewData["nextAppointments"] total</span>
+                    </div>
+                    <div class="col-auto">
+                        <div class="icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                            <i class="fas fa-calendar-day"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-3 mb-0 text-sm">
+                    <span class="text-primary mr-2">
+                        <i class="fa fa-forward">
+                            <span class="text-nowrap font-weight-light stat-last-hours">
+                                @ViewData["nextAppointment"]
+                            </span>
+                        </i>
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">Available Staff today</h5>
+                        <span class="h2 font-weight-bold mb-0">@ViewData["availableStaffs"] total</span>
+                    </div>
+                    <div class="col-auto">
+                        <div class="icon-shape bg-gradient-green text-white rounded-circle shadow">
+                            <i class="fas fa-user-nurse"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-3 mb-0 text-sm">
+                    <span class="mr-2">
+                        <i class="fa">
+                            <span class="text-nowrap font-weight-light stat-last-hours">
+                                @ViewData["24HoursAvailableStaffs"]
+                            </span>
+                        </i>
+                    </span>
+                    <span class="text-nowrap font-weight-light">
+                        In the last 24hours
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Second dashboard row -->
+<div class="row">
+    <div class="col-4">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">Waiting requests</h5>
+                        <span class="h2 font-weight-bold mb-0">@ViewData["waitingRequests"] total</span>
+                    </div>
+                    <div class="col-auto">
+                        <div class="icon-shape bg-gradient-blue text-white rounded-circle shadow">
+                            <i class="fas fa-question"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-3 mb-0 text-sm">
+                    <span class="mr-2">
+                        <i class="fa">
+                            <span class="text-nowrap font-weight-light stat-last-hours">
+                                @ViewData["24HoursWaitingRequests"]
+                            </span>
+                        </i>
+                    </span>
+                    <span class="text-nowrap font-weight-light">
+                        In the last 24hours
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-4">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">Patients taken in the Hospital</h5>
+                        <span class="h2 font-weight-bold mb-0">@ViewData["patientsTakenInHospital"] total</span>
+                    </div>
+                    <div class="col-auto">
+                        <div class="icon-shape bg-gradient-violet text-white rounded-circle shadow">
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-3 mb-0 text-sm">
+                    <span class="mr-2">
+                        <i class="fa">
+                            <span class="text-nowrap font-weight-light stat-last-hours">
+                                @ViewData["24HoursNewPatients"]
+                            </span>
+                        </i>
+                    </span>
+                    <span class="text-nowrap font-weight-light">
+                        In the last 24hours
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="card stat-card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">Todays Appointments</h5>
+                        <span class="h2 font-weight-bold mb-0">@ViewData["todaysAppointments"] total</span>
+                    </div>
+                    <div class="col-auto">
+                        <div class="icon-shape bg-gradient-turquoise text-white rounded-circle shadow">
+                            <i class="fas fa-hand-holding-medical"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-3 mb-0 text-sm">
+                    <span class="mr-2">
+                        <i class="fa">
+                            <span class="text-nowrap font-weight-light stat-last-hours">
+                                @ViewData["appointmentsCompareToYesterday"]
+                            </span>
+                        </i>
+                    </span>
+                    <span class="text-nowrap font-weight-light">
+                        In the last 24hours
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@if ((bool)ViewData["isStaff"])
+{
+    <!-- Graphics -->
+    <div class="row">
+        <div class="col-6">
+            <div class="card graphic-bg">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="chart-header text-white mb-0 text-uppercase">Hospital Appointments</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart">
+                        <canvas id="hospitalAppointments" width="350" height="350"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card graphic-bg">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="chart-header text-white mb-0 text-uppercase">My Appointments</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart">
+                        <canvas id="myAppointments" width="350" height="350"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Message box -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0 message-box-header">
+                                Messages
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Message</th>
+                                <th scope="col">Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var message in (IEnumerable<Message>)ViewData["messages"])
+                            {
+                                <tr>
+                                    <th scope="row">
+                                        @message.Description
+                                    </th>
+                                    <td>
+                                        @message.CreatedAt
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<script src="~/js/chart.js"></script>
+<script src="~/js/site.js"></script>
+
+@if ((bool)ViewData["isStaff"])
+{
+    <script type="text/javascript">
+    var myAppointments = @Html.Raw(Json.Serialize(ViewData["myAppointmentsChart"]));
+    var hospitalAppointments = @Html.Raw(Json.Serialize(ViewData["hospitalAppointmentsChart"]));
+    setupHomeCharts(myAppointments, hospitalAppointments);
+    </script>
+}
+
+<script type="text/javascript">
+    setStatCardArrows();
+</script>

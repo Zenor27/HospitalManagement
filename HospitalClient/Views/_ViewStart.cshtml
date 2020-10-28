@@ -1,0 +1,4 @@
+﻿@{
+    var isLogin = ((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)ViewContext.ActionDescriptor).ControllerName == "Login";
+    Layout = isLogin ? "~/Views/Shared/_LoginLayout.cshtml" : "~/Views/Shared/_MainLayout.cshtml";
+}
